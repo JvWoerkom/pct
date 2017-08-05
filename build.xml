@@ -9,6 +9,7 @@
       <isset property="DLC10" />
       <isset property="DLC10-64" />
       <isset property="DLC11" />
+      <isset property="DLC12" />
     </and>
   </condition>
 
@@ -48,6 +49,11 @@
     <include name="pct/v11/*.p" />
     <include name="rssw/**/*.cls" />
   </fileset>
+  <fileset id="fs.v12" dir="${src.progress}">
+    <include name="pct/*.p" />
+    <include name="pct/v12/*.p" />
+    <include name="rssw/**/*.cls" />
+  </fileset>
   <fileset id="fs.classDoc" dir="${src.progress}">
     <include name="Consultingwerk/**/*.cls" />
     <include name="Consultingwerk/**/*.p" />
@@ -71,6 +77,9 @@
   <path id="pp.v11">
         <pathelement location="${src.progress}" />
         <pathelement location="lib/OEUnit_dlc11.pl" />
+  </path>
+  <path id="pp.v12">
+        <pathelement location="${src.progress}" />
   </path>
 
   <!-- Classpath for PCT compilation -->
@@ -107,12 +116,14 @@
     <mkdir dir="${build-v10}" />
     <mkdir dir="${build-v10-64}" />
     <mkdir dir="${build-v11}" />
+    <mkdir dir="${build-v12}" />
     <mkdir dir="${dist}" />
 
     <!-- Checking v10 and v11 availability -->
     <available file="${DLC10}/version" property="dlc.v10.present" />
     <available file="${DLC10-64}/version" property="dlc.v10-64.present" />
     <available file="${DLC11}/version" property="dlc.v11.present" />
+    <available file="${DLC12}/version" property="dlc.v12.present" />
 
     <echo message="Version tag : ${pct.version.string}" />
     <echo file="${src.java}/com/phenix/pct/PCT.properties">PCTVersion=${pct.version.string}</echo>
@@ -207,6 +218,7 @@
     <echo message="Checking v10 in ${DLC10}" />
     <echo message="Checking v10-64 in ${DLC10-64}" />
     <echo message="Checking v11 in ${DLC11}" />
+    <echo message="Checking v12 in ${DLC12}" />
 
     <antcall target="cond.pbuild">
       <param name="build.this.version" value="dlc.v10.present" />
@@ -235,6 +247,16 @@
       <param name="libName" value="pct11.pl" />
       <param name="fsid" value="fs.v11" />
       <param name="propid" value="pp.v11" />
+      <param name="xmlxref" value="true" />
+    </antcall>
+
+    <antcall target="cond.pbuild">
+      <param name="build.this.version" value="dlc.v12.present" />
+      <param name="dlcHome" value="${DLC12}" />
+      <param name="buildDir" value="${build-v12}" />
+      <param name="libName" value="pct12.pl" />
+      <param name="fsid" value="fs.v12" />
+      <param name="propid" value="pp.v12" />
       <param name="xmlxref" value="true" />
     </antcall>
 
@@ -288,6 +310,7 @@
         <include name="pct10.pl" />
         <include name="pct10-64.pl" />
         <include name="pct11.pl" />
+        <include name="pct12.pl" />
         <include name="pct-src.zip" />
       </fileset>
       <fileset dir="${src.java}">

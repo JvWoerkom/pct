@@ -23,8 +23,9 @@ stage('Standard build') {
   def dlc10 = tool name: 'OE-10.2B', type: 'jenkinsci.plugin.openedge.OpenEdgeInstallation'
   def dlc10_64 = tool name: 'OE-10.2B-64b', type: 'jenkinsci.plugin.openedge.OpenEdgeInstallation'
   def dlc11 = tool name: 'OE-11.7', type: 'jenkinsci.plugin.openedge.OpenEdgeInstallation'
+  def dlc12 = tool name: 'OE-12.0', type: 'jenkinsci.plugin.openedge.OpenEdgeInstallation'
   unstash name: 'classdoc'
-  sh "${antHome}/bin/ant -DDLC10=${dlc10} -DDLC10-64=${dlc10_64} -DDLC11=${dlc11} -DGIT_COMMIT=${commit} dist"
+  sh "${antHome}/bin/ant -DDLC10=${dlc10} -DDLC10-64=${dlc10_64} -DDLC11=${dlc11} -DDLC12=${dlc12} -DGIT_COMMIT=${commit} dist"
   stash name: 'tests', includes: 'dist/testcases.zip,tests.xml'
   archive 'dist/PCT.jar'
  }
@@ -37,6 +38,7 @@ stage('Full tests') {
     branch5: { testBranch('master', 'OE-11.6', false, '11.6-Linux', 11, 64) },
     branch6: { testBranch('master', 'OE-11.7', false, '11.7-Linux', 11, 64) },
     branch7: { testBranch('master', 'OE-10.2B', false, '10.2-Linux', 10, 32) },
+    branch8: { testBranch('master', 'OE-12.0', false, '12.0-Linux', 12, 64) },
     failFast: false
   node('master') {
     // Wildcards not accepted in unstash...
