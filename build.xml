@@ -51,6 +51,7 @@
   </fileset>
   <fileset id="fs.v12" dir="${src.progress}">
     <include name="pct/*.p" />
+    <exclude name="pct/pctOEUnitRunner.p" />
     <include name="pct/v12/*.p" />
     <include name="rssw/**/*.cls" />
   </fileset>
