@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 /**
@@ -145,7 +147,7 @@ public class RCodeInfo {
             throw new InvalidRCodeException("Can't find magic number");
         }
 
-        this.version = readUnsignedShort(input, 14, swapped);
+        this.version = readShort(input, 14, swapped);
         this.sixty_four_bits = ((version & 0x4000) != 0);
 
         if ((version & 0x3FFF) >= 1100) {
@@ -190,6 +192,17 @@ public class RCodeInfo {
         crc = readUnsignedShort(fc, HEADER_SIZE + segmentTableSize + (int) signatureSize + 0x46,
                 swapped);
         md5 = bufferToHex(fc, HEADER_SIZE + segmentTableSize + (int) signatureSize + md5Offset, 16);
+    }
+
+    private static short readShort(InputStream input, long pos, boolean swapped)
+            throws IOException {
+        byte[] buf = new byte[2];
+        input.reset();
+        input.skip(pos);
+        input.read(buf);
+
+        return ByteBuffer.wrap(buf).order(swapped ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN)
+                .getShort();
     }
 
     private static int readUnsignedShort(InputStream input, long pos, boolean swapped)
