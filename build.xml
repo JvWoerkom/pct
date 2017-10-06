@@ -28,6 +28,7 @@
   <property name="build-v10" location="build/build-v10" />
   <property name="build-v10-64" location="build/build-v10-64" />
   <property name="build-v11" location="build/build-v11" />
+  <property name="build-v12" location="build/build-v12" />
   <property name="build-win" location="build/windows" />
   <property name="dist" location="dist" />
 
